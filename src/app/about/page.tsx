@@ -53,7 +53,7 @@ export default function AboutPage() {
 
           <div className="mt-8 flex gap-4">
             <a href="https://github.com/asmitdesai" target="_blank" rel="noopener noreferrer" className="rounded border border-[#1a1a1a] px-4 py-2 font-[family-name:var(--font-mono)] text-sm text-[#a1a1a1] transition-all hover:border-[#2a2a2a] hover:text-[#ededed]">GitHub ↗</a>
-            <a href="https://linkedin.com/in/asmitdesai" target="_blank" rel="noopener noreferrer" className="rounded border border-[#1a1a1a] px-4 py-2 font-[family-name:var(--font-mono)] text-sm text-[#a1a1a1] transition-all hover:border-[#2a2a2a] hover:text-[#ededed]">LinkedIn ↗</a>
+            <a href="https://linkedin.com/in/asmit-desai-858668230/" target="_blank" rel="noopener noreferrer" className="rounded border border-[#1a1a1a] px-4 py-2 font-[family-name:var(--font-mono)] text-sm text-[#a1a1a1] transition-all hover:border-[#2a2a2a] hover:text-[#ededed]">LinkedIn ↗</a>
             <a href="https://tryhackme.com/p/asmitdesai02" target="_blank" rel="noopener noreferrer" className="rounded border border-[#22c55e]/30 px-4 py-2 font-[family-name:var(--font-mono)] text-sm text-[#22c55e] transition-all hover:border-[#22c55e] hover:bg-[#22c55e]/5">TryHackMe ↗</a>
           </div>
         </div>
