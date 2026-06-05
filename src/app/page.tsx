@@ -72,7 +72,7 @@ export default async function HomePage() {
             <div className="mt-4 flex gap-4">
               <a href="https://github.com/asmitdesai" target="_blank" rel="noopener noreferrer" className="font-[family-name:var(--font-mono)] text-xs text-[#525252] transition-colors hover:text-[#a1a1a1]">GitHub ↗</a>
               <a href="https://linkedin.com/in/asmitdesai" target="_blank" rel="noopener noreferrer" className="font-[family-name:var(--font-mono)] text-xs text-[#525252] transition-colors hover:text-[#a1a1a1]">LinkedIn ↗</a>
-              <a href="https://tryhackme.com/p/asmitdesai" target="_blank" rel="noopener noreferrer" className="font-[family-name:var(--font-mono)] text-xs text-[#525252] transition-colors hover:text-[#a1a1a1]">THM ↗</a>
+              <a href="https://tryhackme.com/p/asmitdesai02" target="_blank" rel="noopener noreferrer" className="font-[family-name:var(--font-mono)] text-xs text-[#525252] transition-colors hover:text-[#a1a1a1]">THM ↗</a>
             </div>
           </div>
 

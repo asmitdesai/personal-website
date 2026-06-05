@@ -1,7 +1,7 @@
 const LINKS = [
   { label: 'GitHub', href: 'https://github.com/asmitdesai' },
   { label: 'LinkedIn', href: 'https://linkedin.com/in/asmitdesai' },
-  { label: 'TryHackMe', href: 'https://tryhackme.com/p/asmitdesai' },
+  { label: 'TryHackMe', href: 'https://tryhackme.com/p/asmitdesai02' },
 ];
 
 export function Footer() {

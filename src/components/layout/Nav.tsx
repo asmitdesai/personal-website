@@ -28,7 +28,7 @@ export function Nav() {
             </Link>
           ))}
           <a
-            href="https://tryhackme.com/p/asmitdesai"
+            href="https://tryhackme.com/p/asmitdesai02"
             target="_blank"
             rel="noopener noreferrer"
             className="rounded border border-[#22c55e]/30 px-3 py-1 font-[family-name:var(--font-mono)] text-[11px] text-[#22c55e] transition-all hover:border-[#22c55e] hover:bg-[#22c55e]/5"
