@@ -1,1 +1,96 @@
 @import "tailwindcss";
+@import "highlight.js/styles/github-dark.css";
+
+@theme {
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), var(--font-geist-mono), ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #080808;
+  color: #ededed;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Nav hover underline slide-in */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #22c55e;
+  transition: width 0.2s ease;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Override highlight.js background to match design */
+.hljs {
+  background: #0d0d0d !important;
+  border-radius: 0.5rem;
+  padding: 1.25rem !important;
+}
+
+/* Markdown body styles */
+.prose-custom h1,
+.prose-custom h2,
+.prose-custom h3 {
+  color: #ededed;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.prose-custom p {
+  color: #a1a1a1;
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+.prose-custom a {
+  color: #22c55e;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-custom code:not(pre code) {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  background: #141414;
+  border: 1px solid #1a1a1a;
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+  color: #22c55e;
+}
+.prose-custom pre {
+  margin: 1.5rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+.prose-custom ul,
+.prose-custom ol {
+  color: #a1a1a1;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.75;
+}
+.prose-custom li {
+  margin-bottom: 0.25rem;
+}
+.prose-custom blockquote {
+  border-left: 2px solid #22c55e;
+  padding-left: 1rem;
+  color: #525252;
+  margin: 1.5rem 0;
+}
+.prose-custom hr {
+  border-color: #1a1a1a;
+  margin: 2rem 0;
+}
