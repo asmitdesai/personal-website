@@ -1,6 +1,6 @@
 const LINKS = [
   { label: 'GitHub', href: 'https://github.com/asmitdesai' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/asmit-desai-858668230/' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/asmit-desai-858668230/' },
   { label: 'TryHackMe', href: 'https://tryhackme.com/p/asmitdesai02' },
 ];
 
