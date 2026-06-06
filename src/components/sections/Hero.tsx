@@ -90,10 +90,20 @@ export function Hero() {
 
         {/* right: terminal */}
         <div className="hidden items-center lg:flex">
-          <div
-            className="w-full rounded-xl border border-[#22c55e]/15 bg-[#0d0d0d] p-6 font-[family-name:var(--font-mono)] text-sm"
-            style={{ boxShadow: '0 0 48px rgba(34,197,94,0.07)' }}
-          >
+          <div className="group relative w-full">
+            {/* green aura — fades in when the cursor hovers the terminal */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -inset-24 rounded-[3rem] opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
+              style={{
+                background:
+                  'radial-gradient(ellipse closest-side, rgba(34,197,94,0.5) 0%, rgba(34,197,94,0.25) 45%, rgba(34,197,94,0.08) 75%, transparent 100%)',
+              }}
+            />
+            <div
+              className="relative w-full rounded-xl border border-[#22c55e]/15 bg-[#0d0d0d] p-6 font-[family-name:var(--font-mono)] text-sm transition-colors duration-300 group-hover:border-[#22c55e]/40"
+              style={{ boxShadow: '0 0 48px rgba(34,197,94,0.07)' }}
+            >
             {/* title bar dots */}
             <div className="mb-5 flex items-center gap-2">
               <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
@@ -120,6 +130,7 @@ export function Hero() {
                 <span className="inline-block h-4 w-2 translate-y-0.5 animate-pulse bg-[#22c55e]" />
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>

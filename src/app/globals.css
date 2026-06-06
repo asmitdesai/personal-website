@@ -12,7 +12,7 @@
 
 /* Bump the root size a touch so rem-based type scales up site-wide */
 html {
-  font-size: 17px;
+  font-size: 18.5px;
 }
 
 /* Nav hover underline slide-in */
