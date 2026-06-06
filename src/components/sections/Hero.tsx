@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { TypewriterText } from '@/components/ui/TypewriterText';
 
 const TERMINAL_LINES: Array<{ prompt: boolean; text: string }> = [
@@ -61,18 +62,18 @@ export function Hero() {
 
           {/* CTAs */}
           <div className="flex gap-3">
-            <a
+            <Link
               href="/projects"
               className="rounded-lg border border-[#22c55e] px-4 py-2 font-[family-name:var(--font-mono)] text-sm text-[#22c55e] transition-all hover:bg-[#22c55e]/10"
             >
               View Projects
-            </a>
-            <a
+            </Link>
+            <Link
               href="/writeups/thm"
               className="rounded-lg border border-[#2a2a2a] px-4 py-2 font-[family-name:var(--font-mono)] text-sm text-[#a1a1a1] transition-all hover:border-[#3a3a3a] hover:text-[#ededed]"
             >
               Read Writeups
-            </a>
+            </Link>
           </div>
 
           {/* stats */}
