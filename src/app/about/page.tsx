@@ -1,8 +1,14 @@
 import type { Metadata } from 'next';
+import { getThmStats, THM_USERNAME } from '@/lib/thm';
+import { personJsonLd } from '@/lib/seo';
+import { getNonce } from '@/lib/nonce';
 
 export const metadata: Metadata = {
-  title: 'About — Asmit Desai',
+  title: 'About',
 };
+
+// Refresh THM stats hourly.
+export const revalidate = 3600;
 
 const SKILLS = [
   {
@@ -23,9 +29,16 @@ const SKILLS = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [thm, nonce] = await Promise.all([getThmStats(), getNonce()]);
+
   return (
     <main className="mx-auto max-w-[1100px] px-6 py-20">
+      <script
+        type="application/ld+json"
+        nonce={nonce}
+        dangerouslySetInnerHTML={{ __html: personJsonLd() }}
+      />
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_380px]">
         {/* bio */}
         <div>
@@ -83,13 +96,44 @@ export default function AboutPage() {
             ))}
           </div>
 
-          {/* THM stats placeholder — wired in Phase 2 */}
-          <div className="mt-8 rounded-xl border border-dashed border-[#2a2a2a] p-5">
-            <p className="font-[family-name:var(--font-mono)] text-[11px] text-[#525252]">
-              TRYHACKME STATS
-            </p>
-            <p className="mt-2 text-xs text-[#525252]">Live stats coming in Phase 2.</p>
-          </div>
+          {/* THM live stats */}
+          <a
+            href={`https://tryhackme.com/p/${THM_USERNAME}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 block rounded-xl border border-[#1a1a1a] p-5 transition-all hover:border-[#22c55e]/40"
+          >
+            <div className="flex items-center justify-between">
+              <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-widest text-[#525252]">
+                TryHackMe
+              </p>
+              <span className="font-[family-name:var(--font-mono)] text-[11px] text-[#22c55e]">
+                @{THM_USERNAME} ↗
+              </span>
+            </div>
+            {thm.rank !== null || thm.points !== null ? (
+              <div className="mt-4 flex gap-8">
+                <div>
+                  <p className="text-2xl font-semibold text-[#ededed]">
+                    {thm.rank !== null ? `#${thm.rank.toLocaleString()}` : '—'}
+                  </p>
+                  <p className="font-[family-name:var(--font-mono)] text-[11px] text-[#525252]">
+                    Global rank
+                  </p>
+                </div>
+                <div>
+                  <p className="text-2xl font-semibold text-[#ededed]">
+                    {thm.points !== null ? thm.points.toLocaleString() : '—'}
+                  </p>
+                  <p className="font-[family-name:var(--font-mono)] text-[11px] text-[#525252]">
+                    Points
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <p className="mt-2 text-xs text-[#525252]">Stats unavailable right now.</p>
+            )}
+          </a>
         </div>
       </div>
     </main>

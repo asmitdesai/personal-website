@@ -8,6 +8,7 @@ export const posts = sqliteTable('posts', {
   body: text('body').notNull(),
   excerpt: text('excerpt'),
   tags: text('tags'), // JSON array, e.g. '["wazuh","siem"]'
+  github_url: text('github_url'), // optional repo URL for project cards
   published: integer('published').default(0),
   published_at: text('published_at'),
   updated_at: text('updated_at'),

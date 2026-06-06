@@ -2,10 +2,6 @@
   "name": "personal-website",
   "version": "1.0.0",
   "description": "My personal portfolio and blog. I'm Asmit Desai — a security engineering student at PES University, CTF player, and SOC/detection engineering nerd.",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -17,8 +13,8 @@
     "url": "git+https://github.com/asmitdesai/personal-website.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Asmit Desai",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/asmitdesai/personal-website/issues"
   },
@@ -28,6 +24,7 @@
     "better-sqlite3": "^12.10.0",
     "drizzle-orm": "^0.45.2",
     "framer-motion": "^12.40.0",
+    "fuse.js": "^7.4.2",
     "geist": "^1.7.2",
     "highlight.js": "^11.11.1",
     "next": "^15.5.19",

@@ -65,6 +65,7 @@ Wazuh → Shuffle → VirusTotal / MISP → Velociraptor → Enriched Alert
 - VirusTotal enrichment for file hashes and IPs
 - Velociraptor hunt triggering on critical alerts
 `,
+      github_url: 'https://github.com/asmitdesai/personal-website',
       published: 0,
       published_at: now,
       updated_at: now,

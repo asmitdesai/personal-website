@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SearchBox } from '@/components/ui/SearchBox';
 
 const NAV_LINKS = [
   { href: '/about', label: 'About' },
@@ -18,6 +19,9 @@ export function Nav() {
           asmit.dev
         </Link>
         <div className="flex items-center gap-6">
+          <div className="hidden sm:block">
+            <SearchBox />
+          </div>
           {NAV_LINKS.map(({ href, label }) => (
             <Link
               key={href}
