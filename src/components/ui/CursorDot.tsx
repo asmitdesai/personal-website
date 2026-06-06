@@ -8,6 +8,8 @@ export function CursorDot() {
   useEffect(() => {
     // Desktop only — skip touch / coarse-pointer devices.
     if (!window.matchMedia('(pointer: fine)').matches) return;
+    // Respect reduced-motion preference.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let x = 0;
     let y = 0;

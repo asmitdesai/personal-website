@@ -10,6 +10,18 @@
   box-sizing: border-box;
 }
 
+/* Respect users who prefer reduced motion — kill animations/transitions */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Bump the root size a touch so rem-based type scales up site-wide */
 html {
   font-size: 18.5px;
