@@ -12,6 +12,11 @@ export function formatDate(iso: string | null, opts?: Intl.DateTimeFormatOptions
   return new Date(iso).toLocaleDateString('en-US', opts ?? { month: 'short', year: 'numeric' });
 }
 
+export function readingTime(body: string): number {
+  const words = body.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
 export function parseTags(raw: string | null): string[] {
   if (!raw) return [];
   try {

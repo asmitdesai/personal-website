@@ -1,10 +1,9 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import ReactMarkdown from 'react-markdown';
-import rehypeHighlight from 'rehype-highlight';
 import { getPostBySlug } from '@/db/queries';
 import { TagPill } from '@/components/ui/TagPill';
-import { formatDate, parseTags } from '@/lib/utils';
+import { Markdown } from '@/components/ui/Markdown';
+import { formatDate, parseTags, readingTime } from '@/lib/utils';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -35,6 +34,9 @@ export default async function ThmPostPage({ params }: Props) {
               {formatDate(post.published_at, { month: 'long', year: 'numeric' })}
             </span>
           )}
+          <span className="font-[family-name:var(--font-mono)] text-xs text-[#525252]">
+            {readingTime(post.body)} min read
+          </span>
         </div>
         <h1 className="mb-4 text-3xl font-semibold text-[#ededed]">{post.title}</h1>
         {post.excerpt && (
@@ -50,7 +52,7 @@ export default async function ThmPostPage({ params }: Props) {
       </div>
       <hr className="mb-8 border-[#1a1a1a]" />
       <article className="prose-custom">
-        <ReactMarkdown rehypePlugins={[rehypeHighlight]}>{post.body}</ReactMarkdown>
+        <Markdown body={post.body} />
       </article>
     </main>
   );

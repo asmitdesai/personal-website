@@ -28,6 +28,60 @@
   width: 100%;
 }
 
+/* Custom cursor dot (desktop only) */
+.cursor-dot {
+  display: none;
+}
+@media (pointer: fine) {
+  .cursor-dot {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+    border-radius: 9999px;
+    background: #22c55e;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.08s ease-out;
+    will-change: transform;
+  }
+}
+
+/* Copy-to-clipboard on code blocks */
+.code-block {
+  position: relative;
+  margin: 1.5rem 0;
+}
+.code-block pre {
+  margin: 0;
+}
+.copy-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #a1a1a1;
+  background: #141414;
+  border: 1px solid #1a1a1a;
+  border-radius: 4px;
+  padding: 0.2em 0.55em;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.code-block:hover .copy-button {
+  opacity: 1;
+}
+.copy-button:hover {
+  color: #22c55e;
+  border-color: #2a2a2a;
+}
+
 /* Override highlight.js background to match design */
 .hljs {
   background: #0d0d0d !important;

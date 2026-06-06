@@ -6,6 +6,7 @@ import './globals.css';
 import { Nav } from '@/components/layout/Nav';
 import { Footer } from '@/components/layout/Footer';
 import { PageWrapper } from '@/components/layout/PageWrapper';
+import { CursorDot } from '@/components/ui/CursorDot';
 
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains' });
 
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} ${jetbrainsMono.variable}`}>
       <body className="bg-[#080808] text-[#ededed] antialiased font-[family-name:var(--font-sans)]">
+        <CursorDot />
         <Nav />
         <PageWrapper>
           {children}
