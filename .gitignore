@@ -16,6 +16,7 @@ tsconfig.tsbuildinfo
 
 # env files
 .env*.local
+.env.turso
 
 # sqlite database
 sqlite.db

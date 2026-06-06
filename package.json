@@ -4,7 +4,8 @@
   "description": "My personal portfolio and blog. I'm Asmit Desai — a security engineering student at PES University, CTF player, and SOC/detection engineering nerd.",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "db:migrate": "drizzle-kit migrate",
+    "build": "drizzle-kit migrate && next build",
     "start": "next start",
     "lint": "next lint"
   },
