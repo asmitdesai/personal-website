@@ -3,7 +3,7 @@ import { getPublishedPosts } from '@/db/queries';
 import { TagFilter } from '@/components/ui/TagFilter';
 import { EmptyState } from '@/components/ui/EmptyState';
 
-export const metadata: Metadata = { title: 'Projects — Asmit Desai' };
+export const metadata: Metadata = { title: 'Projects' };
 
 export default async function ProjectsPage() {
   const projects = await getPublishedPosts('project');

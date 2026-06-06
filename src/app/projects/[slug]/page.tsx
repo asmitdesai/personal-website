@@ -4,6 +4,8 @@ import { getPostBySlug } from '@/db/queries';
 import { TagPill } from '@/components/ui/TagPill';
 import { Markdown } from '@/components/ui/Markdown';
 import { formatDate, parseTags, readingTime } from '@/lib/utils';
+import { postMetadata, postJsonLd } from '@/lib/seo';
+import { getNonce } from '@/lib/nonce';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -12,7 +14,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug, 'project');
-  return { title: post ? `${post.title} — Asmit Desai` : 'Not Found' };
+  return post ? postMetadata(post) : { title: 'Not Found' };
 }
 
 export default async function ProjectPage({ params }: Props) {
@@ -21,9 +23,15 @@ export default async function ProjectPage({ params }: Props) {
   if (!post) notFound();
 
   const tags = parseTags(post.tags);
+  const nonce = await getNonce();
 
   return (
     <main className="mx-auto max-w-[768px] px-6 py-20">
+      <script
+        type="application/ld+json"
+        nonce={nonce}
+        dangerouslySetInnerHTML={{ __html: postJsonLd(post) }}
+      />
       <div className="mb-8">
         <div className="mb-4 flex items-center gap-3">
           <span className="rounded border border-[#22c55e]/20 px-2 py-0.5 font-[family-name:var(--font-mono)] text-[11px] text-[#22c55e]">

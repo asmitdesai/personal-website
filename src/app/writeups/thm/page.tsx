@@ -3,7 +3,7 @@ import { getPublishedPosts } from '@/db/queries';
 import { TagFilter } from '@/components/ui/TagFilter';
 import { EmptyState } from '@/components/ui/EmptyState';
 
-export const metadata: Metadata = { title: 'TryHackMe Writeups — Asmit Desai' };
+export const metadata: Metadata = { title: 'TryHackMe Writeups' };
 
 export default async function ThmPage() {
   const posts = await getPublishedPosts('thm');

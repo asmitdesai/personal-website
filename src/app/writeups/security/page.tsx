@@ -3,7 +3,7 @@ import { getPublishedPosts } from '@/db/queries';
 import { TagFilter } from '@/components/ui/TagFilter';
 import { EmptyState } from '@/components/ui/EmptyState';
 
-export const metadata: Metadata = { title: 'Security Posts — Asmit Desai' };
+export const metadata: Metadata = { title: 'Security Posts' };
 
 export default async function SecurityPage() {
   const posts = await getPublishedPosts('security');
