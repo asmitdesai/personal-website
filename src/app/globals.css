@@ -10,6 +10,11 @@
   box-sizing: border-box;
 }
 
+/* Bump the root size a touch so rem-based type scales up site-wide */
+html {
+  font-size: 17px;
+}
+
 /* Nav hover underline slide-in */
 .nav-link {
   position: relative;
@@ -45,7 +50,6 @@
     background: #22c55e;
     pointer-events: none;
     z-index: 9999;
-    transition: transform 0.08s ease-out;
     will-change: transform;
   }
 }
