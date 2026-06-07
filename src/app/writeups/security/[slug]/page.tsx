@@ -5,7 +5,6 @@ import { TagPill } from '@/components/ui/TagPill';
 import { Markdown } from '@/components/ui/Markdown';
 import { formatDate, parseTags, readingTime } from '@/lib/utils';
 import { postMetadata, postJsonLd } from '@/lib/seo';
-import { getNonce } from '@/lib/nonce';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -23,13 +22,11 @@ export default async function SecurityPostPage({ params }: Props) {
   if (!post) notFound();
 
   const tags = parseTags(post.tags);
-  const nonce = await getNonce();
 
   return (
     <main className="mx-auto max-w-[768px] px-6 py-20">
       <script
         type="application/ld+json"
-        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: postJsonLd(post) }}
       />
       <div className="mb-8">

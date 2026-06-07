@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { getThmStats, THM_USERNAME } from '@/lib/thm';
 import { personJsonLd } from '@/lib/seo';
-import { getNonce } from '@/lib/nonce';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -30,13 +29,12 @@ const SKILLS = [
 ];
 
 export default async function AboutPage() {
-  const [thm, nonce] = await Promise.all([getThmStats(), getNonce()]);
+  const thm = await getThmStats();
 
   return (
     <main className="mx-auto max-w-[1100px] px-6 py-20">
       <script
         type="application/ld+json"
-        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: personJsonLd() }}
       />
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_380px]">
