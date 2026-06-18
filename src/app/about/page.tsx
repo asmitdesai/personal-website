@@ -40,7 +40,7 @@ export default async function AboutPage() {
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_380px]">
         {/* bio */}
         <div>
-          <h1 className="mb-6 text-3xl font-semibold text-[#ededed]">About</h1>
+          <h1 className="mb-6 text-3xl font-semibold tracking-tight text-[#ededed]">About</h1>
 
           <div className="space-y-4 text-sm leading-relaxed text-[#a1a1a1]">
             <p>

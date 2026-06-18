@@ -27,7 +27,7 @@ export default async function TagPage({ params }: Props) {
     <main className="mx-auto max-w-[768px] px-6 py-20">
       <div className="mb-10">
         <p className="mb-1 font-[family-name:var(--font-mono)] text-xs text-[#525252]">TAG</p>
-        <h1 className="text-3xl font-semibold text-[#ededed]">#{tag.name}</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-[#ededed]">#{tag.name}</h1>
       </div>
       {posts.length === 0 ? (
         <EmptyState />

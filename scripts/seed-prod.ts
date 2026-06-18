@@ -1,17 +1,35 @@
-import Database from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
+/**
+ * Seeds production Turso DB with the canonical post content.
+ *
+ * Usage:
+ *   TURSO_DATABASE_URL=libsql://... TURSO_AUTH_TOKEN=... npx tsx scripts/seed-prod.ts
+ *
+ * Get values with:
+ *   turso db show personal-website --url
+ *   turso db tokens create personal-website
+ */
+import { createClient } from '@libsql/client';
+import { drizzle } from 'drizzle-orm/libsql';
 import { posts, tags, postTags } from '../src/db/schema';
 
-const sqlite = new Database('sqlite.db');
-const db = drizzle(sqlite);
+const url = process.env.TURSO_DATABASE_URL;
+const authToken = process.env.TURSO_AUTH_TOKEN;
+
+if (!url) {
+  console.error('Error: TURSO_DATABASE_URL is not set');
+  process.exit(1);
+}
+
+const client = createClient({ url, authToken });
+const db = drizzle(client);
 
 async function seed() {
-  console.log('Clearing existing data...');
+  console.log('Clearing existing data in Turso...');
   await db.delete(postTags);
   await db.delete(posts);
   await db.delete(tags);
 
-  console.log('Seeding local DB...');
+  console.log('Seeding Turso...');
 
   const tagData = [
     { name: 'forensics', slug: 'forensics' },
@@ -164,8 +182,8 @@ The project is on GitHub at [asmitdesai/ubuntils](https://github.com/asmitdesai/
     await db.insert(posts).values(post).onConflictDoNothing();
   }
 
-  console.log('Done. 1 published post inserted.');
-  console.log('Run: npx drizzle-kit studio  to browse it.');
+  console.log('Done. 1 published post inserted into Turso.');
+  await client.close();
 }
 
 seed().catch(console.error);

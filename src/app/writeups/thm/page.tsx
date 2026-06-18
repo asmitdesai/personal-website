@@ -10,7 +10,7 @@ export default async function ThmPage() {
 
   return (
     <main className="mx-auto max-w-[768px] px-6 py-20">
-      <h1 className="mb-2 text-3xl font-semibold text-[#ededed]">TryHackMe Writeups</h1>
+      <h1 className="mb-2 text-3xl font-semibold tracking-tight text-[#ededed]">TryHackMe Writeups</h1>
       <p className="mb-10 text-sm text-[#a1a1a1]">
         Path completions, room walkthroughs, and learning notes.
       </p>

@@ -43,7 +43,7 @@ export default async function ThmPostPage({ params }: Props) {
             {readingTime(post.body)} min read
           </span>
         </div>
-        <h1 className="mb-4 text-3xl font-semibold text-[#ededed]">{post.title}</h1>
+        <h1 className="mb-4 text-3xl font-semibold tracking-tight text-[#ededed]">{post.title}</h1>
         {post.excerpt && (
           <p className="mb-4 text-sm leading-relaxed text-[#a1a1a1]">{post.excerpt}</p>
         )}

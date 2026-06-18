@@ -23,7 +23,7 @@ const STATS = [
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-screen items-center py-20">
+    <section className="relative flex min-h-[85svh] items-center py-20 lg:min-h-screen">
       {/* ambient green orb */}
       <div
         aria-hidden
@@ -64,7 +64,7 @@ export function Hero() {
           <div className="flex gap-3">
             <Link
               href="/projects"
-              className="rounded-lg border border-[#22c55e] px-4 py-2 font-[family-name:var(--font-mono)] text-sm text-[#22c55e] transition-all hover:bg-[#22c55e]/10"
+              className="rounded-lg border border-[#22c55e] bg-[#22c55e] px-4 py-2 font-[family-name:var(--font-mono)] text-sm font-medium text-[#080808] transition-all hover:border-[#4ade80] hover:bg-[#4ade80]"
             >
               View Projects
             </Link>
@@ -80,7 +80,7 @@ export function Hero() {
           <div className="flex gap-8 border-t border-[#1a1a1a] pt-6">
             {STATS.map(({ value, label }) => (
               <div key={label}>
-                <p className="text-2xl font-semibold text-[#ededed]">{value}</p>
+                <p className="text-2xl font-semibold tracking-tight text-[#ededed]">{value}</p>
                 <p className="font-[family-name:var(--font-mono)] text-xs text-[#525252]">
                   {label}
                 </p>

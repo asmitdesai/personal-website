@@ -22,7 +22,7 @@ export function PostCard({ post, index = 0 }: { post: Post; index?: number }) {
       transition={{ duration: reduce ? 0 : 0.25, delay: reduce ? 0 : index * 0.07 }}
     >
       <Link href={postPath(post)} className="group block">
-        <article className="rounded-xl border border-[#1a1a1a] bg-[#0f0f0f] p-6 transition-all duration-200 hover:border-[#2a2a2a] hover:shadow-[0_0_24px_rgba(34,197,94,0.06)]">
+        <article className="rounded-xl border border-[#1a1a1a] bg-[#0f0f0f] p-6 transition-all duration-200 hover:border-[#2a2a2a] hover:bg-[#111311] hover:shadow-[0_0_24px_rgba(34,197,94,0.06)]">
           <div className="mb-3 flex items-start justify-between gap-4">
             <h3 className="font-medium leading-snug text-[#ededed] transition-colors group-hover:text-[#22c55e]">
               {post.title}

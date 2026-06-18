@@ -16,9 +16,9 @@ export function Nav() {
           href="/"
           className="font-[family-name:var(--font-mono)] text-sm text-[#ededed] transition-colors hover:text-[#22c55e]"
         >
-          asmit.dev
+          asmitdesai.dev
         </Link>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 sm:gap-6">
           <div className="hidden sm:block">
             <SearchBox />
           </div>
@@ -35,7 +35,7 @@ export function Nav() {
             href="https://tryhackme.com/p/asmitdesai02"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded border border-[#22c55e]/30 px-3 py-1 font-[family-name:var(--font-mono)] text-[11px] text-[#22c55e] transition-all hover:border-[#22c55e] hover:bg-[#22c55e]/5"
+            className="hidden rounded border border-[#22c55e]/30 px-3 py-1 font-[family-name:var(--font-mono)] text-[11px] text-[#22c55e] transition-all hover:border-[#22c55e] hover:bg-[#22c55e]/5 sm:inline-block"
           >
             TryHackMe ↗
           </a>

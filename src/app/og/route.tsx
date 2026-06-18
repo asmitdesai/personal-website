@@ -68,7 +68,7 @@ export async function GET(request: Request) {
           }}
         >
           <span style={{ color: '#a1a1a1' }}>{SITE.name}</span>
-          <span>asmit.dev</span>
+          <span>asmitdesai.dev</span>
         </div>
       </div>
     ),

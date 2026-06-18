@@ -24,14 +24,14 @@ export default async function HomePage() {
 
       {/* skills strip */}
       <div className="border-y border-[#1a1a1a] bg-[#0f0f0f] py-4">
-        <div className="mx-auto flex max-w-[1100px] flex-wrap items-center gap-x-6 gap-y-2 px-6">
-          <span className="font-[family-name:var(--font-mono)] text-[10px] text-[#525252]">
+        <div className="mx-auto flex max-w-[1100px] flex-wrap items-center gap-x-3 gap-y-2 px-6">
+          <span className="mr-3 font-[family-name:var(--font-mono)] text-[10px] tracking-widest text-[#525252]">
             TOOLS
           </span>
           {TOOLS.map((tool) => (
             <span
               key={tool}
-              className="font-[family-name:var(--font-mono)] text-xs text-[#a1a1a1]"
+              className="rounded-full border border-[#1a1a1a] bg-[#141414] px-3 py-1 font-[family-name:var(--font-mono)] text-xs text-[#a1a1a1] transition-colors hover:border-[#22c55e]/40 hover:text-[#22c55e]"
             >
               {tool}
             </span>
@@ -62,17 +62,12 @@ export default async function HomePage() {
         <aside className="space-y-10">
           <div>
             <h2 className="mb-4 font-[family-name:var(--font-mono)] text-xs uppercase tracking-widest text-[#525252]">
-              About
+              Links
             </h2>
-            <p className="text-sm leading-relaxed text-[#a1a1a1]">
-              BTech CSE at PES University, Bengaluru. Focused on SOC
-              engineering, threat detection, and incident response.
-              Active CTF player and challenge author.
-            </p>
-            <div className="mt-4 flex gap-4">
-              <a href="https://github.com/asmitdesai" target="_blank" rel="noopener noreferrer" className="font-[family-name:var(--font-mono)] text-xs text-[#525252] transition-colors hover:text-[#a1a1a1]">GitHub ↗</a>
-              <a href="https://www.linkedin.com/in/asmit-desai-858668230/" target="_blank" rel="noopener noreferrer" className="font-[family-name:var(--font-mono)] text-xs text-[#525252] transition-colors hover:text-[#a1a1a1]">LinkedIn ↗</a>
-              <a href="https://tryhackme.com/p/asmitdesai02" target="_blank" rel="noopener noreferrer" className="font-[family-name:var(--font-mono)] text-xs text-[#525252] transition-colors hover:text-[#a1a1a1]">THM ↗</a>
+            <div className="flex gap-4">
+              <a href="https://github.com/asmitdesai" target="_blank" rel="noopener noreferrer" className="font-[family-name:var(--font-mono)] text-xs text-[#525252] transition-colors hover:text-[#22c55e]">GitHub ↗</a>
+              <a href="https://www.linkedin.com/in/asmit-desai-858668230/" target="_blank" rel="noopener noreferrer" className="font-[family-name:var(--font-mono)] text-xs text-[#525252] transition-colors hover:text-[#22c55e]">LinkedIn ↗</a>
+              <a href="https://tryhackme.com/p/asmitdesai02" target="_blank" rel="noopener noreferrer" className="font-[family-name:var(--font-mono)] text-xs text-[#525252] transition-colors hover:text-[#22c55e]">THM ↗</a>
             </div>
           </div>
 
