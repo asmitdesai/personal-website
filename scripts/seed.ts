@@ -29,8 +29,6 @@ async function seed() {
     await db.insert(tags).values(tag).onConflictDoNothing();
   }
 
-  const now = new Date().toISOString();
-
   const postData = [
     {
       slug: 'ubuntils',
@@ -158,8 +156,8 @@ The v2.0 web dashboard is the feature I'm most interested in building. Running t
 
 The project is on GitHub at [asmitdesai/ubuntils](https://github.com/asmitdesai/ubuntils). 240 tests at 90% coverage, MIT licensed, runs on Ubuntu 20.04/22.04/24.04 (amd64 and arm64). Install with \`pipx install -e .\` and run \`sudo ubuntils scan\`.`,
       published: 1,
-      published_at: now,
-      updated_at: now,
+      published_at: '2026-06-13T06:05:05.081Z',
+      updated_at: '2026-06-13T06:05:05.081Z',
     },
     {
       slug: '2026-dbir-ai-social-engineering-detection-engineering',
