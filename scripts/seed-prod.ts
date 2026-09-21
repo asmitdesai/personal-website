@@ -337,13 +337,121 @@ None of that is a complete security program, and I wouldn't pretend it is from w
       published_at: '2026-08-21T00:00:00.000Z',
       updated_at: '2026-08-21T00:00:00.000Z',
     },
+    {
+      slug: 'alert-fatigue-rule-writing-not-headcount',
+      title: 'Alert Fatigue Is a Rule-Writing Problem, Not a Headcount Problem',
+      type: 'security' as const,
+      excerpt:
+        'Most "too many alerts" complaints are actually "we wrote rules against events instead of behavior" complaints. Tuning one Sigma rule across three passes, from a string match anyone could evade to a correlation that actually costs an attacker something.',
+      tags: JSON.stringify(['detection-engineering', 'incident-response', 'security-tools']),
+      github_url: null,
+      body: `# Alert Fatigue Is a Rule-Writing Problem, Not a Headcount Problem
+
+I keep running into the same complaint whenever detection engineering comes up in conversation, whether it's a CTF debrief, a security subreddit thread, or someone venting about their SOC job: too many alerts, not enough people to look at them. The fixes people reach for are almost always organizational — hire more analysts, buy a SOAR platform, bolt on an AI layer to pre-triage the queue. Those can all help at the margins. But I don't think any of them touch the actual defect, which sits further upstream: a lot of alert fatigue is caused by rules that were written against *events* instead of *behavior*, and nobody went back to fix them once the false-positive rate became obvious.
+
+I want to walk through what that distinction actually looks like in a real rule, because it's easy to state as a principle and much less obvious how to apply it until you've tuned something across a few passes and watched where it breaks.
+
+## The version that's too broad to survive a week
+
+Say you want to catch encoded PowerShell execution — a well-known technique for hiding a payload from casual log review, since the actual command only reveals itself after you base64-decode it. The first draft of a rule for this, and honestly the version I would have written a year ago before I'd thought hard about any of this, looks something like:
+
+\`\`\`yaml
+title: Encoded PowerShell Execution
+status: experimental
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith: '\\powershell.exe'
+    CommandLine|contains: '-enc'
+  condition: selection
+level: medium
+\`\`\`
+
+This will absolutely fire. It'll also fire constantly, because \`-enc\` shows up all over completely mundane automation — Group Policy startup scripts, RMM tooling, backup jobs, whatever homegrown PowerShell one-liner IT wrote three years ago and never documented. A rule this wide doesn't get you meaningfully closer to catching an attacker. It gets you an analyst who, after the third night of clearing sixty false positives on the same alert title, quietly stops actually reading it before closing it. At that point the rule is technically "in coverage" and functionally useless, which might be worse than not having it, because it's occupying a slot that looks solved on a dashboard somewhere.
+
+## Narrowing the string, still fragile
+
+The obvious next move is to tighten the match — require a few flags together, filter out the parent processes you know are noisy:
+
+\`\`\`yaml
+detection:
+  selection:
+    Image|endswith: '\\powershell.exe'
+    CommandLine|contains|all:
+      - '-enc'
+      - '-w'
+      - 'hidden'
+  filter:
+    ParentImage|endswith:
+      - '\\services.exe'
+      - '\\explorer.exe'
+  condition: selection and not filter
+level: medium
+\`\`\`
+
+Volume drops. But this version has a specific, kind of embarrassing weakness once you sit with it: it's matching a string shape, not a behavior. Anyone who's read a handful of the same detection write-ups I have knows encoded-PowerShell-plus-hidden-window is a documented pattern, and defeating this exact rule takes nothing more than knowing what string the defender is grepping for — split the flags across an environment variable, use \`-EncodedCommand\` instead of \`-enc\`, launch through a renamed copy of the binary. None of that is real tradecraft. It's just typing the same thing slightly differently. A rule that a moderately alert adversary can invalidate by renaming a flag was never really detecting the technique in the first place — it was detecting one specific spelling of it.
+
+The thing both of these versions have in common is that they treat "PowerShell launched with an encoding flag" as the interesting moment, full stop. But that moment, taken alone, is genuinely ambiguous. Plenty of legitimate scripts do exactly this. The part that actually separates an attacker from a scheduled task isn't the launch — it's what happens in the seconds right after.
+
+## What changes when you correlate instead of match
+
+The third pass doesn't try to out-narrow the string any further. It changes the question the rule is asking, from "did PowerShell launch with encoding flags" to "did PowerShell launch with encoding flags and then do something a legitimate encoded script almost never does immediately afterward":
+
+\`\`\`yaml
+title: Encoded PowerShell Followed by Network Connection or LSASS Access
+status: stable
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  launch:
+    Image|endswith: '\\powershell.exe'
+    CommandLine|re: '-[eE](nc(oded?)?(C(ommand)?)?)?\\s'
+  followed_by:
+    - EventID: 3    # network connection, correlated by process GUID within 30s
+    - EventID: 10   # process access targeting lsass.exe
+  filter_main:
+    ParentImage|endswith:
+      - '\\services.exe'
+      - '\\ManagementAgentHost.exe'
+  condition: launch and followed_by and not filter_main
+level: high
+\`\`\`
+
+The string match on \`-enc\` is actually looser here on purpose, to catch truncated flag forms someone might use to dodge exact matching — but it no longer has to carry the whole rule by itself. The part that matters is the correlation window. Legitimate automation encodes commands for all kinds of unremarkable reasons — dodging quoting hell in a scheduled task, packaging something for a remote session — but it essentially never does that and then, within thirty seconds, opens a handle into LSASS or reaches out over the network. That combination costs an attacker something real to fake. They'd have to either skip credential access entirely or deliberately stall past the correlation window, and both of those are actual constraints on how they operate, not a one-character flag rename.
+
+This is the shape of the fix in general, past just PowerShell: a rule that fires on a single event, no matter how specific the string it's matching, is describing what a tool invocation looks like. A rule that fires on a sequence is describing what someone is actually trying to accomplish. The second kind takes real work to build — you need a baseline period to figure out what "immediately after" and "almost never" mean for a specific environment, and you need a data source, like Sysmon's Event ID 10 with LSASS filtering, that's itself noisy enough to need its own separate tuning. But it's the version that's still standing after contact with someone who reads the same detection write-ups the defenders do.
+
+## Why the easy version keeps winning anyway
+
+If layered correlation is obviously the better approach, it's worth asking honestly why so much production rule content still looks like the first draft. I don't run a SOC, so take this as an outside read rather than a war story, but a few reasons seem to hold up whenever I look at how rule sets actually get built.
+
+Writing the narrow version is genuinely more work per rule. A single-event rule ships in twenty minutes. A correlated one needs someone to sit with the false-positive rate for a week or two before calling it stable, and that sitting-with-it phase is unglamorous and doesn't show up anywhere as a line item — it's the first thing that gets cut when a deadline is close.
+
+Coverage metrics reward breadth over fidelity almost by construction. If what gets measured is "how many ATT&CK techniques have a rule," the incentive is to ship one broad rule per technique and move to the next box, rather than iterate the same rule three times to bring its false-positive rate down. The checkbox looks identical either way, even though only one version of it is actually usable at three in the morning.
+
+And nobody really owns the tuning backlog the way someone owns writing new rules. A new rule has a clear author and a clear "done." Going back to fix a rule that's already shipped and already generating noise is maintenance, and maintenance competes for time against whatever's newest and most visible on someone's plate. Rule sets tend to only grow in one direction — more rules, rarely revisited ones — until the noise forces a reckoning, usually well after analysts have already learned to skim past that alert title out of habit.
+
+## The part that actually costs something
+
+That last bit is the failure mode that makes this a rule-writing problem rather than a staffing one, and it's worth being specific about it instead of leaving it abstract. An analyst who's been burned by a noisy rule doesn't file a formal exception — they just get faster at recognizing the title and closing it without really reading it. That's a completely reasonable response to bad signal. It's also exactly the condition under which a real instance of that technique gets waved through in the same three seconds as everything else with that name. The rule is still "in coverage" on paper. It isn't protecting anything, because the human step in the loop has already learned to route around it.
+
+Adding a second analyst to the rotation doesn't fix that. It just means two people are now pattern-matching past the same noisy alert instead of one, which is redistribution, not reduction. The fix has to happen in the rule itself, before it ever reaches a human — otherwise the noise just finds a new place to sit.
+
+I don't think this makes writing good detections a solved problem, or even mostly a technical one — half of what I described above is really about incentives and who's accountable for going back and fixing something that already shipped. But the technical half is at least something I can practice on my own: the next time I write a rule, ask whether it fires on a moment or on a sequence, and whether the change that would evade it is a real operational constraint or just a rename.`,
+      published: 1,
+      published_at: '2026-09-21T00:00:00.000Z',
+      updated_at: '2026-09-21T00:00:00.000Z',
+    },
   ];
 
   for (const post of postData) {
     await db.insert(posts).values(post).onConflictDoNothing();
   }
 
-  console.log('Done. 2 published posts inserted into Turso.');
+  console.log('Done. 3 published posts inserted into Turso.');
   await client.close();
 }
 
