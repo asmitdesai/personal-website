@@ -63,3 +63,7 @@ const TYPE_LABELS: Record<string, string> = {
 export function typeLabel(type: string): string {
   return TYPE_LABELS[type] ?? type;
 }
+
+export function isActivePath(pathname: string, href: string): boolean {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}

@@ -45,6 +45,10 @@ type PageHook = (page: Page, ctx: HookContext) => Promise<string | null>;
 const CHECKS: Check[] = [
   { path: '/projects', selector: 'article.reticle .reticle-bracket', state: 'attached', why: 'post cards use ReticleCard' },
   { path: '/writeups/security', selector: 'article.reticle', why: 'security list renders reticle cards' },
+  { path: '/projects/ubuntils', selector: 'nav a[aria-current="page"][href="/projects"]', why: 'Projects is active inside a project page' },
+  { path: '/writeups/security', selector: 'nav a[aria-current="page"][href="/writeups/security"]', why: 'Security is active on its list' },
+  { path: '/', selector: 'nav a[aria-current="page"]', state: 'detached', why: 'no section is active on home' },
+  { path: '/', selector: 'footer >> text=all systems nominal', why: 'footer status line' },
 ];
 
 // Behavioural checks — return an error message, or null when fine.

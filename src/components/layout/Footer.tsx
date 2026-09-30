@@ -6,10 +6,11 @@ const LINKS = [
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-[#1a1a1a] py-8">
-      <div className="mx-auto flex max-w-[1100px] items-center justify-between px-6">
-        <p className="font-[family-name:var(--font-mono)] text-xs text-[#525252]">
-          © {new Date().getFullYear()} Asmit Desai
+    <footer className="mt-24 border-t border-border py-8">
+      <div className="mx-auto flex max-w-[1100px] flex-col gap-4 px-6 sm:flex-row sm:items-center sm:justify-between">
+        <p className="flex items-center gap-2 font-mono text-xs text-muted">
+          <span aria-hidden className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+          <span>all systems nominal · © {new Date().getFullYear()} Asmit Desai</span>
         </p>
         <div className="flex gap-6">
           {LINKS.map(({ label, href }) => (
@@ -18,7 +19,7 @@ export function Footer() {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-[family-name:var(--font-mono)] text-xs text-[#525252] transition-colors hover:text-[#22c55e]"
+              className="font-mono text-xs text-muted transition-colors hover:text-accent"
             >
               {label}
             </a>
