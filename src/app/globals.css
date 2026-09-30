@@ -4,6 +4,18 @@
 @theme {
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), var(--font-geist-mono), ui-monospace, monospace;
+
+  --color-bg: #080808;
+  --color-surface: #0f0f0f;
+  --color-surface-2: #141414;
+  --color-terminal: #0d0d0d;
+  --color-border: #1a1a1a;
+  --color-border-hover: #2a2a2a;
+  --color-fg: #ededed;
+  --color-fg-2: #a1a1a1;
+  --color-muted: #525252;
+  --color-accent: #22c55e;
+  --color-accent-dim: #16a34a22;
 }
 
 * {
@@ -237,4 +249,57 @@ body {
 .prose-custom hr {
   border-color: #1a1a1a;
   margin: 2rem 0;
+}
+
+/* Dot grid backdrop */
+.dot-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(#2a2a2a 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+.dot-grid--hero {
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 80%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 80%);
+}
+.dot-grid--header {
+  opacity: 0.7;
+  -webkit-mask-image: radial-gradient(ellipse 55% 100% at 15% 0%, #000 10%, transparent 75%);
+  mask-image: radial-gradient(ellipse 55% 100% at 15% 0%, #000 10%, transparent 75%);
+}
+.dot-grid--panel {
+  opacity: 0.5;
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 50%, #000 20%, transparent 80%);
+  mask-image: radial-gradient(ellipse 60% 70% at 50% 50%, #000 20%, transparent 80%);
+}
+
+/* Reticle card: corner brackets snap in on hover / keyboard focus */
+.reticle {
+  position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.reticle-bracket {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 0 solid var(--color-accent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.reticle-bracket[data-corner='tl'] { top: 8px; left: 8px; border-top-width: 1px; border-left-width: 1px; transform: translate(-4px, -4px); }
+.reticle-bracket[data-corner='tr'] { top: 8px; right: 8px; border-top-width: 1px; border-right-width: 1px; transform: translate(4px, -4px); }
+.reticle-bracket[data-corner='bl'] { bottom: 8px; left: 8px; border-bottom-width: 1px; border-left-width: 1px; transform: translate(-4px, 4px); }
+.reticle-bracket[data-corner='br'] { bottom: 8px; right: 8px; border-bottom-width: 1px; border-right-width: 1px; transform: translate(4px, 4px); }
+.reticle:hover,
+.group:hover .reticle,
+.group:focus-visible .reticle {
+  border-color: #1f2a22;
+  box-shadow: 0 0 28px rgba(34, 197, 94, 0.07);
+}
+.reticle:hover .reticle-bracket,
+.group:hover .reticle-bracket,
+.group:focus-visible .reticle-bracket {
+  opacity: 1;
+  transform: translate(0, 0);
 }

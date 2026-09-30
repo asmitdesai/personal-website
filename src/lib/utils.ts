@@ -53,3 +53,13 @@ export function parseTags(raw: string | null): string[] {
     return [];
   }
 }
+
+const TYPE_LABELS: Record<string, string> = {
+  project: 'Project',
+  thm: 'TryHackMe',
+  security: 'Security',
+};
+
+export function typeLabel(type: string): string {
+  return TYPE_LABELS[type] ?? type;
+}

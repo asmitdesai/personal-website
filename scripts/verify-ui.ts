@@ -42,7 +42,10 @@ interface HookContext {
 type PageHook = (page: Page, ctx: HookContext) => Promise<string | null>;
 
 // Feature checks — later tasks append entries here.
-const CHECKS: Check[] = [];
+const CHECKS: Check[] = [
+  { path: '/projects', selector: 'article.reticle .reticle-bracket', state: 'attached', why: 'post cards use ReticleCard' },
+  { path: '/writeups/security', selector: 'article.reticle', why: 'security list renders reticle cards' },
+];
 
 // Behavioural checks — return an error message, or null when fine.
 const HOOKS: PageHook[] = [];
