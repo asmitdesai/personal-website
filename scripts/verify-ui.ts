@@ -56,6 +56,11 @@ const CHECKS: Check[] = [
   { path: '/', selector: 'section.isolate .dot-grid--hero', state: 'attached', why: 'hero uses the dot grid backdrop' },
   { path: '/', selector: 'text=Featured', why: 'first post is rendered as the featured card' },
   { path: '/', selector: 'aside a[href="/about"] >> text=More about me', why: 'sidebar about blurb links to /about' },
+  { path: '/projects', selector: '[data-page-header] >> text="// projects"', why: 'list page header eyebrow' },
+  { path: '/writeups/security', selector: '[data-page-header] .dot-grid--header', state: 'attached', why: 'header dot grid' },
+  { path: '/writeups/thm', selector: '[data-empty-state]', why: 'empty THM list shows EmptyState (local DB has none)' },
+  { path: '/writeups/thm', selector: '[data-page-header] >> text=00 entries', why: 'empty count renders' },
+  { path: '/tags/detection-engineering', selector: '[data-page-header] >> text=#detection-engineering', why: 'tag header title' },
 ];
 
 // Behavioural checks — return an error message, or null when fine.

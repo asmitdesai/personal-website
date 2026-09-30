@@ -67,3 +67,7 @@ export function typeLabel(type: string): string {
 export function isActivePath(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
+
+export function formatCount(n: number): string {
+  return `${String(n).padStart(2, '0')} ${n === 1 ? 'entry' : 'entries'}`;
+}
