@@ -49,10 +49,37 @@ const CHECKS: Check[] = [
   { path: '/writeups/security', selector: 'nav a[aria-current="page"][href="/writeups/security"]', why: 'Security is active on its list' },
   { path: '/', selector: 'nav a[aria-current="page"]', state: 'detached', why: 'no section is active on home' },
   { path: '/', selector: 'footer >> text=all systems nominal', why: 'footer status line' },
+  { path: '/', selector: '[data-terminal] >> text=// simulated', viewport: 'desktop', why: 'terminal is labelled as simulated' },
+  { path: '/', selector: '[data-feed-line]', viewport: 'desktop', motion: 'full', why: 'intro finishes and the feed starts streaming' },
+  { path: '/', selector: '[data-feed-line]', viewport: 'desktop', motion: 'reduced', why: 'reduced motion shows a static feed snapshot immediately' },
+  { path: '/', selector: '[data-terminal]', viewport: 'mobile', state: 'hidden', why: 'terminal hidden below lg' },
 ];
 
 // Behavioural checks — return an error message, or null when fine.
-const HOOKS: PageHook[] = [];
+async function lastFeedId(page: Page): Promise<string | null> {
+  return page.evaluate(
+    `(() => { const l = document.querySelectorAll('[data-feed-line]'); return l.length ? l[l.length - 1].getAttribute('data-feed-id') : null; })()`,
+  ) as Promise<string | null>;
+}
+
+const HOOKS: PageHook[] = [
+  // Feed must advance while visible (full motion) and freeze while scrolled away.
+  async (page, { path, viewport, motion }) => {
+    if (path !== '/' || viewport !== 'desktop') return null;
+    const before = await lastFeedId(page);
+    await page.waitForTimeout(3200);
+    const after = await lastFeedId(page);
+    if (motion === 'reduced') return before === after ? null : 'reduced-motion feed should be static';
+    if (before === after) return 'feed did not advance while visible';
+    await page.evaluate('window.scrollTo(0, document.documentElement.scrollHeight)');
+    await page.waitForTimeout(300);
+    const hiddenStart = await lastFeedId(page);
+    await page.waitForTimeout(3200);
+    const hiddenEnd = await lastFeedId(page);
+    await page.evaluate('window.scrollTo(0, 0)');
+    return hiddenStart === hiddenEnd ? null : 'feed kept streaming while off-screen';
+  },
+];
 
 // Kept as a string so tsx's keepNames helpers never leak into the browser.
 const INSPECT = `(() => {
