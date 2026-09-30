@@ -88,7 +88,7 @@ function FeedLines({ lines }: { lines: FeedLine[] }) {
   return (
     <>
       {lines.map((l) => (
-        <div key={l.id} data-feed-line data-feed-id={l.id} className="terminal-line-in truncate">
+        <div key={l.id} data-feed-line data-feed-id={l.id} className="terminal-line-in shrink-0 truncate text-xs leading-5">
           <span className="text-muted">{l.time}</span>{' '}
           <span className={`whitespace-pre ${SEVERITY_CLASS[l.severity]}`}>{l.level.padEnd(6)}</span>{' '}
           <span className="text-fg-2">{l.message}</span>
@@ -204,7 +204,12 @@ export function HeroTerminal() {
           </div>
         )}
 
-        <div className="min-h-0 flex-1 space-y-1.5 overflow-hidden">
+        {/* feed is bottom-anchored like `tail -f`: the oldest lines clip off the top */}
+        <div
+          className={`min-h-0 flex-1 overflow-hidden ${
+            shownPhase === 'feed' && tab === 'feed' ? 'flex flex-col justify-end gap-1' : 'space-y-1.5'
+          }`}
+        >
           {shownPhase === 'feed' && tab === 'feed' ? (
             <FeedLines lines={shownFeed} />
           ) : (

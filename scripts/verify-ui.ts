@@ -49,10 +49,13 @@ const CHECKS: Check[] = [
   { path: '/writeups/security', selector: 'nav a[aria-current="page"][href="/writeups/security"]', why: 'Security is active on its list' },
   { path: '/', selector: 'nav a[aria-current="page"]', state: 'detached', why: 'no section is active on home' },
   { path: '/', selector: 'footer >> text=all systems nominal', why: 'footer status line' },
-  { path: '/', selector: '[data-terminal] >> text=// simulated', viewport: 'desktop', why: 'terminal is labelled as simulated' },
+  { path: '/', selector: '[data-terminal] >> text="// simulated"', viewport: 'desktop', why: 'terminal is labelled as simulated' },
   { path: '/', selector: '[data-feed-line]', viewport: 'desktop', motion: 'full', why: 'intro finishes and the feed starts streaming' },
   { path: '/', selector: '[data-feed-line]', viewport: 'desktop', motion: 'reduced', why: 'reduced motion shows a static feed snapshot immediately' },
   { path: '/', selector: '[data-terminal]', viewport: 'mobile', state: 'hidden', why: 'terminal hidden below lg' },
+  { path: '/', selector: 'section.isolate .dot-grid--hero', state: 'attached', why: 'hero uses the dot grid backdrop' },
+  { path: '/', selector: 'text=Featured', why: 'first post is rendered as the featured card' },
+  { path: '/', selector: 'aside a[href="/about"] >> text=More about me', why: 'sidebar about blurb links to /about' },
 ];
 
 // Behavioural checks — return an error message, or null when fine.
