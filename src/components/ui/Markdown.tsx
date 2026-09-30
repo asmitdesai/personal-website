@@ -1,13 +1,17 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { isValidElement, useRef, useState } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
+import { codeLanguage } from '@/lib/utils';
 
 function CodeBlock({ children, ...props }: ComponentPropsWithoutRef<'pre'>) {
   const ref = useRef<HTMLPreElement>(null);
   const [copied, setCopied] = useState(false);
+  const language = codeLanguage(
+    isValidElement<{ className?: string }>(children) ? children.props.className : undefined,
+  );
 
   async function copy() {
     const text = ref.current?.innerText ?? '';
@@ -22,6 +26,9 @@ function CodeBlock({ children, ...props }: ComponentPropsWithoutRef<'pre'>) {
 
   return (
     <div className="code-block group relative">
+      <div className="code-block-bar">
+        <span>{language ?? 'text'}</span>
+      </div>
       <button
         type="button"
         onClick={copy}

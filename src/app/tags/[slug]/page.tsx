@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getTagBySlug, getPostsByTag } from '@/db/queries';
 import { PostCard } from '@/components/ui/PostCard';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { EmptyState } from '@/components/ui/EmptyState';
 
 interface Props {
@@ -25,10 +26,7 @@ export default async function TagPage({ params }: Props) {
 
   return (
     <main className="mx-auto max-w-[768px] px-6 py-20">
-      <div className="mb-10">
-        <p className="mb-1 font-[family-name:var(--font-mono)] text-xs text-[#525252]">TAG</p>
-        <h1 className="text-3xl font-semibold tracking-tight text-[#ededed]">#{tag.name}</h1>
-      </div>
+      <PageHeader eyebrow={`tag: ${tag.name}`} title={`#${tag.name}`} count={posts.length} />
       {posts.length === 0 ? (
         <EmptyState />
       ) : (

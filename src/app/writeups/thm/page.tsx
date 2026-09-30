@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getPublishedPosts } from '@/db/queries';
 import { TagFilter } from '@/components/ui/TagFilter';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { EmptyState } from '@/components/ui/EmptyState';
 
 export const metadata: Metadata = { title: 'TryHackMe Writeups' };
@@ -10,15 +11,13 @@ export default async function ThmPage() {
 
   return (
     <main className="mx-auto max-w-[768px] px-6 py-20">
-      <h1 className="mb-2 text-3xl font-semibold tracking-tight text-[#ededed]">TryHackMe Writeups</h1>
-      <p className="mb-10 text-sm text-[#a1a1a1]">
-        Path completions, room walkthroughs, and learning notes.
-      </p>
-      {posts.length === 0 ? (
-        <EmptyState />
-      ) : (
-        <TagFilter posts={posts} />
-      )}
+      <PageHeader
+        eyebrow="tryhackme"
+        title="TryHackMe Writeups"
+        subtitle="Path completions, room walkthroughs, and learning notes."
+        count={posts.length}
+      />
+      {posts.length === 0 ? <EmptyState /> : <TagFilter posts={posts} />}
     </main>
   );
 }

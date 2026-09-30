@@ -65,14 +65,14 @@ export function GitHubBadge({ url }: { url: string }) {
   // Skeleton while loading keeps the row height stable.
   if (!stats) {
     return (
-      <span className="inline-flex h-4 w-24 animate-pulse rounded bg-[#1a1a1a]" aria-hidden />
+      <span className="inline-flex h-4 w-24 animate-pulse rounded bg-border" aria-hidden />
     );
   }
 
   return (
-    <span className="flex items-center gap-3 font-[family-name:var(--font-mono)] text-[11px] text-[#525252]">
+    <span className="flex items-center gap-3 font-mono text-[11px] text-muted">
       <span className="flex items-center gap-1">
-        <span className="text-[#22c55e]">★</span>
+        <span className="text-accent">★</span>
         {stats.stars}
       </span>
       <span>{timeAgo(stats.pushedAt)}</span>

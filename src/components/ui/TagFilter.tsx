@@ -23,10 +23,10 @@ export function TagFilter({ posts }: { posts: Post[] }) {
         <div className="mb-8 flex flex-wrap gap-2">
           <button
             onClick={() => setActive(null)}
-            className={`rounded border px-2 py-0.5 font-[family-name:var(--font-mono)] text-[11px] transition-all ${
+            className={`rounded border px-2 py-0.5 font-mono text-[11px] transition-all ${
               active === null
-                ? 'border-[#22c55e] bg-[#22c55e]/10 text-[#22c55e]'
-                : 'border-[#2a2a2a] text-[#525252] hover:border-[#3a3a3a] hover:text-[#a1a1a1]'
+                ? 'border-accent bg-accent/10 text-accent'
+                : 'border-border-hover text-muted hover:border-[#3a3a3a] hover:text-fg-2'
             }`}
           >
             All
@@ -35,10 +35,10 @@ export function TagFilter({ posts }: { posts: Post[] }) {
             <button
               key={tag}
               onClick={() => setActive(tag === active ? null : tag)}
-              className={`rounded border px-2 py-0.5 font-[family-name:var(--font-mono)] text-[11px] transition-all ${
+              className={`rounded border px-2 py-0.5 font-mono text-[11px] transition-all ${
                 active === tag
-                  ? 'border-[#22c55e] bg-[#22c55e]/10 text-[#22c55e]'
-                  : 'border-[#22c55e]/20 text-[#22c55e] hover:border-[#22c55e]/50 hover:bg-[#22c55e]/5'
+                  ? 'border-accent bg-accent/10 text-accent'
+                  : 'border-accent/20 text-accent hover:border-accent/50 hover:bg-accent/5'
               }`}
             >
               {tag}

@@ -1,46 +1,35 @@
 import Link from 'next/link';
 import { SearchBox } from '@/components/ui/SearchBox';
-
-const NAV_LINKS = [
-  { href: '/about', label: 'About' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/writeups/thm', label: 'THM' },
-  { href: '/writeups/security', label: 'Security' },
-];
+import { NavLinks } from './NavLinks';
 
 export function Nav() {
   return (
-    <nav className="sticky top-0 z-50 border-b border-[#1a1a1a] bg-[#080808]/90 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-[1100px] items-center justify-between px-6 py-4">
-        <Link
-          href="/"
-          className="font-[family-name:var(--font-mono)] text-sm text-[#ededed] transition-colors hover:text-[#22c55e]"
-        >
+    <nav className="sticky top-0 z-50 border-b border-border bg-bg/90 backdrop-blur-sm">
+      <div className="mx-auto flex h-14 max-w-[1100px] items-center justify-between gap-4 px-6">
+        <Link href="/" className="shrink-0 font-mono text-[13px] text-fg transition-colors hover:text-accent sm:text-sm">
           asmitdesai.dev
         </Link>
-        <div className="flex items-center gap-4 sm:gap-6">
+        <div className="flex items-center gap-3 sm:gap-6">
           <div className="hidden sm:block">
             <SearchBox />
           </div>
-          {NAV_LINKS.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className="nav-link text-sm text-[#a1a1a1] transition-colors hover:text-[#ededed]"
-            >
-              {label}
-            </Link>
-          ))}
+          <NavLinks />
           <a
             href="https://tryhackme.com/p/asmitdesai02"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden rounded border border-[#22c55e]/30 px-3 py-1 font-[family-name:var(--font-mono)] text-[11px] text-[#22c55e] transition-all hover:border-[#22c55e] hover:bg-[#22c55e]/5 sm:inline-block"
+            className="hidden rounded border border-accent/30 px-3 py-1 font-mono text-[11px] text-accent transition-all hover:border-accent hover:bg-accent/5 sm:inline-block"
           >
             TryHackMe ↗
           </a>
         </div>
       </div>
+      {/* hairline glow along the bottom border */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 -bottom-px h-px"
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(34,197,94,0.35), transparent)' }}
+      />
     </nav>
   );
 }

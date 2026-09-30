@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} ${jetbrainsMono.variable}`}>
-      <body className="bg-[#080808] text-[#ededed] antialiased font-[family-name:var(--font-sans)]">
+      <body className="bg-bg text-fg antialiased font-[family-name:var(--font-sans)]">
         <CursorDot />
         <Nav />
         <PageWrapper>
