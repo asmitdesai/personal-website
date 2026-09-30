@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useReducedMotion } from 'framer-motion';
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 
 const ROLES = [
   'Security Engineering Student',
@@ -16,7 +16,7 @@ export function TypewriterText() {
   const [charIdx, setCharIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
   const [paused, setPaused] = useState(false);
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
 
   useEffect(() => {
     if (reduce) return;
@@ -53,11 +53,11 @@ export function TypewriterText() {
 
   // Reduced motion: show a stable role with no typing animation.
   if (reduce) {
-    return <span className="text-[#22c55e]">{ROLES[0]}</span>;
+    return <span className="text-accent">{ROLES[0]}</span>;
   }
 
   return (
-    <span className="text-[#22c55e]">
+    <span className="text-accent">
       {displayed}
       <span className="animate-pulse opacity-80">|</span>
     </span>

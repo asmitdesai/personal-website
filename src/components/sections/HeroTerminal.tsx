@@ -6,6 +6,7 @@ import {
   appendLine, makeFeedLine, snapshotFeed,
   type FeedLine, type Severity,
 } from '@/lib/terminal';
+import { usePrefersReducedMotion } from '@/components/ui/usePrefersReducedMotion';
 
 type Phase = 'intro' | 'feed';
 type Tab = 'whoami' | 'feed';
@@ -31,14 +32,6 @@ const TABS: Array<{ id: Tab; label: string }> = [
   { id: 'whoami', label: 'whoami' },
   { id: 'feed', label: 'tail -f alerts.log' },
 ];
-
-const REDUCED_QUERY = '(prefers-reduced-motion: reduce)';
-
-function subscribeReducedMotion(cb: () => void) {
-  const mq = window.matchMedia(REDUCED_QUERY);
-  mq.addEventListener('change', cb);
-  return () => mq.removeEventListener('change', cb);
-}
 
 function subscribeVisibility(cb: () => void) {
   document.addEventListener('visibilitychange', cb);
@@ -107,11 +100,7 @@ export function HeroTerminal() {
   const [feed, setFeed] = useState<FeedLine[]>([]);
   const [inView, setInView] = useState(false);
 
-  const reduced = useSyncExternalStore(
-    subscribeReducedMotion,
-    () => window.matchMedia(REDUCED_QUERY).matches,
-    () => false,
-  );
+  const reduced = usePrefersReducedMotion();
   const pageVisible = useSyncExternalStore(subscribeVisibility, () => !document.hidden, () => true);
   const running = inView && pageVisible && !reduced;
 
