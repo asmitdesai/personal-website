@@ -61,6 +61,11 @@ const CHECKS: Check[] = [
   { path: '/writeups/thm', selector: '[data-empty-state]', why: 'empty THM list shows EmptyState (local DB has none)' },
   { path: '/writeups/thm', selector: '[data-page-header] >> text=00 entries', why: 'empty count renders' },
   { path: '/tags/detection-engineering', selector: '[data-page-header] >> text=#detection-engineering', why: 'tag header title' },
+  { path: '/projects/ubuntils', selector: '[data-post-header] a[href="/projects"] >> text=back to projects', why: 'breadcrumb back link' },
+  { path: '/writeups/security/alert-fatigue-rule-writing-not-headcount', selector: '.reading-progress', state: 'attached', motion: 'full', why: 'progress bar mounted' },
+  { path: '/writeups/security/alert-fatigue-rule-writing-not-headcount', selector: '.reading-progress', state: 'hidden', motion: 'reduced', why: 'progress bar hidden under reduced motion' },
+  { path: '/preview/ubuntils', selector: '[data-post-header]', why: 'preview uses the shared header' },
+  { path: '/writeups/security/alert-fatigue-rule-writing-not-headcount', selector: '.code-block-bar', why: 'code blocks show the language bar (this post has fenced code)' },
 ];
 
 // Behavioural checks — return an error message, or null when fine.

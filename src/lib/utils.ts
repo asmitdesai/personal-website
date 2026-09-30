@@ -71,3 +71,24 @@ export function isActivePath(pathname: string, href: string): boolean {
 export function formatCount(n: number): string {
   return `${String(n).padStart(2, '0')} ${n === 1 ? 'entry' : 'entries'}`;
 }
+
+const BACK_LINKS: Record<string, { href: string; label: string }> = {
+  project: { href: '/projects', label: 'projects' },
+  thm: { href: '/writeups/thm', label: 'tryhackme' },
+  security: { href: '/writeups/security', label: 'security' },
+};
+
+export function backLink(type: string): { href: string; label: string } {
+  return BACK_LINKS[type] ?? { href: '/', label: 'home' };
+}
+
+export function codeLanguage(className: string | undefined): string | null {
+  const match = className?.match(/(?:^|\s)language-([\w+#-]+)/);
+  return match ? match[1] : null;
+}
+
+export function scrollProgress(scrollY: number, scrollHeight: number, viewportHeight: number): number {
+  const max = scrollHeight - viewportHeight;
+  if (max <= 0) return 1;
+  return Math.min(1, Math.max(0, scrollY / max));
+}
