@@ -17,12 +17,12 @@ export interface FeedLine extends AlertEvent {
 }
 
 export const INTRO: IntroStep[] = [
-  { command: 'whoami', output: ['asmit_desai  # security engineering student'] },
+  { command: 'whoami', output: ['asmit_desai # security engineering student'] },
   {
     command: 'cat focus.txt',
-    output: ['SOC engineering  ·  threat detection', 'incident response  ·  detection engineering'],
+    output: ['SOC engineering · threat detection', 'incident response · detection engineering'],
   },
-  { command: 'ls tools/', output: ['wazuh  velociraptor  misp  burpsuite  wireshark'] },
+  { command: 'ls tools/', output: ['wazuh  velociraptor  misp  burpsuite'] },
 ];
 
 // Illustrative events only — this is a simulated feed, not real telemetry.

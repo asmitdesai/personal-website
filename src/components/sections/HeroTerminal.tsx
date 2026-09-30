@@ -64,7 +64,7 @@ function IntroLines({ progress }: { progress: Progress }) {
               <span className="text-fg">{typed}</span>
               {!done && <Cursor />}
             </Prompt>
-            {done && s.output.map((line) => <div key={line} className="whitespace-pre pl-5 text-fg-2">{line}</div>)}
+            {done && s.output.map((line) => <div key={line} data-intro-output className="whitespace-pre-wrap pl-5 text-xs leading-5 text-fg-2">{line}</div>)}
           </div>
         );
       })}
@@ -195,8 +195,9 @@ export function HeroTerminal() {
 
         {/* feed is bottom-anchored like `tail -f`: the oldest lines clip off the top */}
         <div
+          data-terminal-body
           className={`min-h-0 flex-1 overflow-hidden ${
-            shownPhase === 'feed' && tab === 'feed' ? 'flex flex-col justify-end gap-1' : 'space-y-1.5'
+            shownPhase === 'feed' && tab === 'feed' ? 'flex flex-col justify-end gap-1' : 'space-y-1'
           }`}
         >
           {shownPhase === 'feed' && tab === 'feed' ? (

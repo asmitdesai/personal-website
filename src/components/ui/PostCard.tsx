@@ -17,10 +17,11 @@ export function PostCard({ post, index = 0, featured = false }: PostCardProps) {
   const reduce = useReducedMotion();
   return (
     <motion.div
-      initial={{ opacity: 0, y: reduce ? 0 : 12 }}
+      data-reveal
+      initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: reduce ? 0 : 0.25, delay: reduce ? 0 : index * 0.07 }}
+      transition={reduce ? { duration: 0 } : { duration: 0.25, delay: index * 0.07 }}
     >
       <Link href={postPath(post)} className="group block rounded-xl">
         <ReticleCard as="article">

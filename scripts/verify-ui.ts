@@ -95,6 +95,45 @@ const HOOKS: PageHook[] = [
     await page.evaluate('window.scrollTo(0, 0)');
     return hiddenStart === hiddenEnd ? null : 'feed kept streaming while off-screen';
   },
+  // The intro text must fit the fixed terminal box — no clipped words, at both lg widths.
+  async (page, { path, viewport, motion }) => {
+    if (path !== '/' || viewport !== 'desktop') return null;
+    await page.locator('[data-terminal] button', { hasText: 'whoami' }).click();
+    await page.waitForTimeout(150);
+    const problems: string[] = [];
+    for (const width of [1440, 1024]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.waitForTimeout(150);
+      const clipped = (await page.evaluate(`(() => {
+        const out = Array.from(document.querySelectorAll('[data-terminal] [data-intro-output]'))
+          .filter((el) => el.scrollWidth > el.clientWidth).map((el) => el.textContent);
+        const body = document.querySelector('[data-terminal-body]');
+        if (body && body.scrollHeight > body.clientHeight) out.push('intro taller than terminal body');
+        return out;
+      })()`)) as string[];
+      if (clipped.length) problems.push(`${width}px: ${clipped.join(' | ')}`);
+    }
+    await page.setViewportSize(VIEWPORTS.desktop);
+    await page.locator('[data-terminal] button', { hasText: 'tail -f' }).click();
+    return problems.length ? `terminal intro clipped (${motion}) — ${problems.join('; ')}` : null;
+  },
+  // Reduced motion: content is visible on first paint and no CSS animation keeps running.
+  async (page, { motion }) => {
+    if (motion !== 'reduced') return null;
+    const issues = (await page.evaluate(`(() => {
+      const faded = Array.from(document.querySelectorAll('body *')).filter((el) => {
+        if (el.closest('[aria-hidden="true"], .copy-button')) return false;
+        const r = el.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && Number(getComputedStyle(el).opacity) < 1;
+      }).length;
+      const running = document.getAnimations().filter((a) => a.playState === 'running' && !(a.effect && a.effect.target && a.effect.target.closest && a.effect.target.closest('[aria-hidden="true"]'))).length;
+      return { faded, running };
+    })()`)) as { faded: number; running: number };
+    const out: string[] = [];
+    if (issues.faded) out.push(`${issues.faded} element(s) not fully visible before scrolling`);
+    if (issues.running) out.push(`${issues.running} animation(s) still running`);
+    return out.length ? `reduced motion: ${out.join(', ')}` : null;
+  },
 ];
 
 // Kept as a string so tsx's keepNames helpers never leak into the browser.
@@ -132,7 +171,8 @@ async function main() {
   const browser = await chromium.launch();
   const failures: string[] = [];
 
-  for (const motion of ['full', 'reduced'] as const) {
+  const motions = (['full', 'reduced'] as const).filter((m) => !process.env.VERIFY_MOTION || m === process.env.VERIFY_MOTION);
+  for (const motion of motions) {
     for (const viewport of Object.keys(VIEWPORTS) as ViewportName[]) {
       const context = await browser.newContext({
         viewport: VIEWPORTS[viewport],
