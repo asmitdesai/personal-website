@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
 import { getThmStats, THM_USERNAME } from '@/lib/thm';
 import { personJsonLd } from '@/lib/seo';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { ReticleCard } from '@/components/ui/ReticleCard';
+import { Reveal } from '@/components/ui/Reveal';
+import { SectionLabel } from '@/components/ui/SectionLabel';
+import { BUTTON_ACCENT_OUTLINE, BUTTON_OUTLINE } from '@/components/ui/buttonStyles';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -33,23 +38,19 @@ export default async function AboutPage() {
 
   return (
     <main className="mx-auto max-w-[1100px] px-6 py-20">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: personJsonLd() }}
-      />
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_380px]">
-        {/* bio */}
-        <div>
-          <h1 className="mb-6 text-3xl font-semibold tracking-tight text-[#ededed]">About</h1>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: personJsonLd() }} />
+      <PageHeader eyebrow="about" title="About" subtitle="Security engineering student · SOC & detection engineering" />
 
-          <div className="space-y-4 text-sm leading-relaxed text-[#a1a1a1]">
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_380px]">
+        <Reveal>
+          <div className="space-y-4 text-sm leading-relaxed text-fg-2">
             <p>
               I&apos;m Asmit Desai, a security engineering student at PES University,
               Bengaluru pursuing a BTech in Computer Science. My focus is SOC
               engineering, threat detection, and incident response.
             </p>
             <p>
-              During my internship at <span className="text-[#ededed]">SecPod Technologies</span>,
+              During my internship at <span className="text-fg">SecPod Technologies</span>,
               I built a detection and enrichment pipeline integrating Wazuh, MISP,
               VirusTotal, Velociraptor, and Shuffle — processing alerts end-to-end from
               collection to enriched IOC correlation.
@@ -62,78 +63,70 @@ export default async function AboutPage() {
             </p>
           </div>
 
-          <div className="mt-8 flex gap-4">
-            <a href="https://github.com/asmitdesai" target="_blank" rel="noopener noreferrer" className="rounded border border-[#1a1a1a] px-4 py-2 font-[family-name:var(--font-mono)] text-sm text-[#a1a1a1] transition-all hover:border-[#2a2a2a] hover:text-[#ededed]">GitHub ↗</a>
-            <a href="https://www.linkedin.com/in/asmit-desai-858668230/" target="_blank" rel="noopener noreferrer" className="rounded border border-[#1a1a1a] px-4 py-2 font-[family-name:var(--font-mono)] text-sm text-[#a1a1a1] transition-all hover:border-[#2a2a2a] hover:text-[#ededed]">LinkedIn ↗</a>
-            <a href="https://tryhackme.com/p/asmitdesai02" target="_blank" rel="noopener noreferrer" className="rounded border border-[#22c55e]/30 px-4 py-2 font-[family-name:var(--font-mono)] text-sm text-[#22c55e] transition-all hover:border-[#22c55e] hover:bg-[#22c55e]/5">TryHackMe ↗</a>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="https://github.com/asmitdesai" target="_blank" rel="noopener noreferrer" className={BUTTON_OUTLINE}>GitHub ↗</a>
+            <a href="https://www.linkedin.com/in/asmit-desai-858668230/" target="_blank" rel="noopener noreferrer" className={BUTTON_OUTLINE}>LinkedIn ↗</a>
+            <a href="https://tryhackme.com/p/asmitdesai02" target="_blank" rel="noopener noreferrer" className={BUTTON_ACCENT_OUTLINE}>TryHackMe ↗</a>
           </div>
-        </div>
+        </Reveal>
 
-        {/* skills grid */}
-        <div>
-          <h2 className="mb-6 font-[family-name:var(--font-mono)] text-xs uppercase tracking-widest text-[#525252]">
-            Skills & Tools
-          </h2>
-          <div className="space-y-6">
-            {SKILLS.map(({ category, items }) => (
-              <div key={category}>
-                <p className="mb-2 font-[family-name:var(--font-mono)] text-[11px] text-[#525252]">
-                  {category}
-                </p>
+        <Reveal delay={0.08}>
+          <a
+            href={`https://tryhackme.com/p/${THM_USERNAME}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block rounded-xl"
+          >
+            <ReticleCard surface="terminal">
+              <div className="flex items-center justify-between">
+                <p className="font-mono text-[11px] uppercase tracking-widest text-muted">TryHackMe</p>
+                <span className="font-mono text-[11px] text-accent">@{THM_USERNAME} ↗</span>
+              </div>
+              {thm.rank !== null || thm.points !== null ? (
+                <div className="mt-4 flex gap-8">
+                  <div>
+                    <p className="font-mono text-2xl font-semibold text-fg">
+                      {thm.rank !== null ? `#${thm.rank.toLocaleString()}` : '—'}
+                    </p>
+                    <p className="font-mono text-[11px] text-muted">Global rank</p>
+                  </div>
+                  <div>
+                    <p className="font-mono text-2xl font-semibold text-fg">
+                      {thm.points !== null ? thm.points.toLocaleString() : '—'}
+                    </p>
+                    <p className="font-mono text-[11px] text-muted">Points</p>
+                  </div>
+                </div>
+              ) : (
+                <p className="mt-2 text-xs text-muted">Stats unavailable right now.</p>
+              )}
+            </ReticleCard>
+          </a>
+        </Reveal>
+      </div>
+
+      <section data-skills className="mt-16">
+        <SectionLabel>Skills &amp; Tools</SectionLabel>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {SKILLS.map(({ category, items }, i) => (
+            <Reveal key={category} delay={i * 0.06}>
+              <ReticleCard className="h-full">
+                <p className="mb-3 font-mono text-[11px] text-accent">{category}</p>
                 <div className="flex flex-wrap gap-2">
                   {items.map((item) => (
                     <span
                       key={item}
-                      className="rounded border border-[#1a1a1a] bg-[#0f0f0f] px-2 py-1 font-[family-name:var(--font-mono)] text-xs text-[#a1a1a1]"
+                      className="rounded border border-border bg-surface-2 px-2 py-1 font-mono text-xs text-fg-2"
                     >
                       {item}
                     </span>
                   ))}
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {/* THM live stats */}
-          <a
-            href={`https://tryhackme.com/p/${THM_USERNAME}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 block rounded-xl border border-[#1a1a1a] p-5 transition-all hover:border-[#22c55e]/40"
-          >
-            <div className="flex items-center justify-between">
-              <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-widest text-[#525252]">
-                TryHackMe
-              </p>
-              <span className="font-[family-name:var(--font-mono)] text-[11px] text-[#22c55e]">
-                @{THM_USERNAME} ↗
-              </span>
-            </div>
-            {thm.rank !== null || thm.points !== null ? (
-              <div className="mt-4 flex gap-8">
-                <div>
-                  <p className="text-2xl font-semibold text-[#ededed]">
-                    {thm.rank !== null ? `#${thm.rank.toLocaleString()}` : '—'}
-                  </p>
-                  <p className="font-[family-name:var(--font-mono)] text-[11px] text-[#525252]">
-                    Global rank
-                  </p>
-                </div>
-                <div>
-                  <p className="text-2xl font-semibold text-[#ededed]">
-                    {thm.points !== null ? thm.points.toLocaleString() : '—'}
-                  </p>
-                  <p className="font-[family-name:var(--font-mono)] text-[11px] text-[#525252]">
-                    Points
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <p className="mt-2 text-xs text-[#525252]">Stats unavailable right now.</p>
-            )}
-          </a>
+              </ReticleCard>
+            </Reveal>
+          ))}
         </div>
-      </div>
+      </section>
     </main>
   );
 }

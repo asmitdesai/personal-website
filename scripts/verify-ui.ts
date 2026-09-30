@@ -66,6 +66,9 @@ const CHECKS: Check[] = [
   { path: '/writeups/security/alert-fatigue-rule-writing-not-headcount', selector: '.reading-progress', state: 'hidden', motion: 'reduced', why: 'progress bar hidden under reduced motion' },
   { path: '/preview/ubuntils', selector: '[data-post-header]', why: 'preview uses the shared header' },
   { path: '/writeups/security/alert-fatigue-rule-writing-not-headcount', selector: '.code-block-bar', why: 'code blocks show the language bar (this post has fenced code)' },
+  { path: '/about', selector: '[data-page-header] >> text="// about"', why: 'about header' },
+  { path: '/about', selector: 'section[data-skills] .reticle', why: 'skills rendered as reticle cards' },
+  { path: '/about', selector: 'a[href^="https://tryhackme.com/p/"] .reticle.bg-terminal', why: 'THM stats card on terminal surface' },
 ];
 
 // Behavioural checks — return an error message, or null when fine.
